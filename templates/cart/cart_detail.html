@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Your Cart</h2>
+{% if cart %}
+  <ul>
+    {% for item in cart %}
+      <li>{{ item.product.name }} x {{ item.quantity }} = {{ item.total_price }} <a href="{% url 'AGElite_store:cart_remove' item.product.id %}">Remove</a></li>
+    {% endfor %}
+  </ul>
+  <p>Total: {{ cart.get_total_price }}</p>
+  <a href="{% url 'AGElite_store:order_create' %}">Checkout</a>
+{% else %}<p>Cart is empty.</p>{% endif %}
+{% endblock %}

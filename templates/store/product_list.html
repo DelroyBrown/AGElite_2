@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Products{% endblock %}
+{% block content %}
+<h2>Categories</h2>
+<ul>
+    {% for cat in categories %}<li><a href="{% url 'AGElite_store:product_list_by_category' cat.slug %}">{{ cat.name
+            }}</a></li>{% endfor %}
+</ul>
+<h2>Products</h2>
+<ul>
+    {% for product in products %}
+    <li>
+        <a href="{% url 'AGElite_store:product_detail' product.id product.slug %}">{{ product.name }}</a> - {{
+        product.price }}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
