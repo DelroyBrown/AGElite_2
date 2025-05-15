@@ -14,8 +14,9 @@
 <ul>
     {% for product in products %}
     <li>
-        <a href="{% url 'AGElite_store:product_detail' product.id product.slug %}">{{ product.name }}</a> - {{
-        product.price }}
+        <a href="{% url 'AGElite_store:product_detail' product.id product.slug %}">
+            {{ product.name }}
+        </a> - £{{ product.price }}
     </li>
     {% endfor %}
 </ul>

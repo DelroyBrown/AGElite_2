@@ -4,6 +4,15 @@ from .forms import CartAddProductForm, OrderCreateForm
 from .cart import Cart
 
 
+def home(request):
+    # Fetch all categories and a few featured products
+    categories = Category.objects.all()
+    products = Product.objects.filter(available=True)[:4]  # Only show first 4 products
+    return render(
+        request, "store/home.html", {"categories": categories, "products": products}
+    )
+
+
 # Product listing by category
 def product_list(request, category_slug=None):
     category = None
