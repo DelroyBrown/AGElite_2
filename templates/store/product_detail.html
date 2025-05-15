@@ -4,5 +4,5 @@
   <img src="{{ product.image.url }}" alt="{{ product.name }}">
   <p>{{ product.description }}</p>
   <p>Price: {{ product.price }}</p>
-  <form action="{% url 'AGElite_storeLcart_add' product.id %}" method="post">{% csrf_token %}{{ cart_product_form.quantity }}<button type="submit">Add to cart</button></form>
+  <form action="{% url 'AGElite_store:cart_add' product.id %}" method="post">{% csrf_token %}{{ cart_product_form.quantity }}<button type="submit">Add to cart</button></form>
 {% endblock %}

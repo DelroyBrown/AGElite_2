@@ -3,8 +3,12 @@
 {% block content %}
 <h2>Categories</h2>
 <ul>
-    {% for cat in categories %}<li><a href="{% url 'AGElite_store:product_list_by_category' cat.slug %}">{{ cat.name
-            }}</a></li>{% endfor %}
+    {% for cat in categories %}<li>
+        <a href="{% url 'AGElite_store:product_list_by_category' cat.slug %}">
+            {{ cat.name}}
+        </a>
+    </li>
+    {% endfor %}
 </ul>
 <h2>Products</h2>
 <ul>

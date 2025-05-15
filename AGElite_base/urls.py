@@ -7,8 +7,8 @@ app_name = "AGElite_base"
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("AGElite_store.urls")),
     path('accounts/', include('django.contrib.auth.urls')),
+    path("", include("AGElite_store.urls")),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
