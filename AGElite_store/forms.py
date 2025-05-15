@@ -1,0 +1,13 @@
+from django import forms
+from .models import Order
+
+
+class CartAddProductForm(forms.Form):
+    quantity = forms.IntegerField(min_value=1, initial=1)
+    update = forms.BooleanField(required=False, initial=False, widget=forms.HiddenInput)
+
+
+class OrderCreateForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fieldds = ["first_name", "last_name", "email", "address", "postal_code", "city"]
