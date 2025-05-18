@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+  <section class="hero">
+    <h2>Welcome to My Shop</h2>
+    <p>Discover our curated collection.</p>
+  </section>
+  <h3>Categories</h3>
+  <ul>
+    {% for cat in categories %}
+      <li><a href="{% url 'AGElite_store:product_list_by_category' cat.slug %}">{{ cat.name }}</a></li>
+    {% endfor %}
+  </ul>
+  <h3>Featured Products</h3>
+  <ul>
+    {% for product in products %}
+      <li>
+        <a href="{% url 'AGElite_store:product_detail' product.id product.slug %}">{{ product.name }}</a> - {{ product.price }}
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
