@@ -7256,7 +7256,7 @@ header .main-navbar .nav-menu > li.mega-menu.home-menu .megamenu-image-title {
 .discount-image-details .discount-images .theme-circle {
   width: 450px;
   height: 450px;
-  background: rgb(117, 42, 221);
+  background-color: #FF4500;
   background: radial-gradient(circle, rgb(117, 42, 221) 0%, rgb(87, 46, 147) 100%);
   border-radius: 50%;
 }

@@ -1,0 +1,111 @@
+{% load static %}
+<section class="ratio_asos">
+  <div class="container-fluid p-sm-0">
+    <div class="row m-0">
+      <div class="col-sm-12 p-0">
+        <div class="title title-2 text-center">
+          <h2>Latest Products</h2>
+          <h5>Our Collection</h5>
+        </div>
+        <div class="product-wrapper slide-6">
+
+          {% for product in products %}
+          <div>
+            <div class="product-box">
+              <div class="img-wrapper">
+                <a href="{% url 'AGElite_store:product_detail' product.id product.slug %}">
+                  <img loading="lazy" src="{{ product.image.url }}"
+                    class="bg-img img-fluid blur-up lazyload" alt="">
+                </a>
+                <div class="label-block">
+                  <span class="label label-black">New</span>
+                  <span class="label label-theme">
+
+
+
+                    <span class="label label-theme">12% off </span>
+
+
+
+                  </span>
+                </div>
+                <div class="cart-wrap">
+                  <ul>
+                    <li>
+                      <a href="javascript:void()" class="addtocart-btn">
+                        <i data-feather="shopping-bag"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <a onclick="handleQuickView({'productId':'f938daf7-9d4b-4494-b8cc-1fc80bd2037b','productVariantId':'d7f45027-d567-4fe3-a028-662fc0e885c2'})"
+                        data-bs-toggle="modal" href="#quick-view">
+                        <i data-feather="eye"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/compare_products/d7f45027-d567-4fe3-a028-662fc0e885c2" class="add-to-compare-list">
+                        <i data-feather="refresh-cw"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/add_to_wishlist/d7f45027-d567-4fe3-a028-662fc0e885c2" class="wishlist">
+                        <i data-feather="heart"></i>
+                      </a>
+                    </li>
+                  </ul>
+
+
+
+
+
+                </div>
+              </div>
+              <div class="product-details text-center">
+                <h3 class="theme-color">
+                  £{{ product.price }}
+                  <span class="font-light ms-1">
+                    £25.00
+                  </span>
+                </h3>
+                <a href="/product-detail/f938daf7-9d4b-4494-b8cc-1fc80bd2037b" class="font-default">
+                  <h5>{{ product.name }}</h5>
+                </a>
+                <ul class="rating mt-1">
+
+                  <li>
+                    <i class="fas fa-star"></i>
+                  </li>
+
+                  <li>
+                    <i class="fas fa-star"></i>
+                  </li>
+
+                  <li>
+                    <i class="fas fa-star"></i>
+                  </li>
+
+                  <li>
+                    <i class="fas fa-star"></i>
+                  </li>
+
+                  <li>
+                    <i class="fas fa-star"></i>
+                  </li>
+
+
+
+
+
+
+                  <!-- ------------------------------------------------------------------- -->
+                </ul>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
