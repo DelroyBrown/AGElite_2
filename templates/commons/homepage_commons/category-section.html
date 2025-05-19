@@ -11,6 +11,7 @@
         </div>
         <div class="category-wrapper category-slider white-arrow">
 
+            {% for cat in categories %}
             <div>
                 <div class="category-wrap category-color">
                     <a href="javascript:void()">
@@ -25,51 +26,8 @@
                     </a>
                 </div>
             </div>
-
-            <div>
-                <div class="category-wrap category-color">
-                    <a href="javascript:void()">
-                        <img loading="lazy" style="width: 100px;"
-                            src="{% static 'assets/images/home_page_images/category_gym_wear.png' %}"
-                            class="img-fluid blur-up lazyload" alt="category image">
-                        <div class="category-content category-text t-text">
-                            <h3>Gym Wear</h3>
-
-
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <div>
-                <div class="category-wrap category-color">
-                    <a href="javascript:void()">
-                        <img loading="lazy" style="width: 100px;"
-                            src="{% static 'assets/images/home_page_images/category_accessories.png' %}"
-                            class="img-fluid blur-up lazyload" alt="category image">
-                        <div class="category-content category-text t-text">
-                            <h3>Accessories</h3>
-
-
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <div>
-                <div class="category-wrap category-color">
-                    <a href="javascript:void()">
-                        <img loading="lazy" style="width: 100px;"
-                            src="{% static 'assets/images/home_page_images/category_shoes.png' %}" class="img-fluid blur-up lazyload"
-                            alt="category image">
-                        <div class="category-content category-text t-text">
-                            <h3>Gym Shoes</h3>
-
-
-                        </div>
-                    </a>
-                </div>
-            </div>
+            {% endfor %}
+    
 
         </div>
     </div>

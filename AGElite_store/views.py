@@ -6,7 +6,7 @@ from .cart import Cart
 
 def home(request):
     # Fetch all categories and a few featured products
-    categories = Category.objects.all()
+    categories = Category.objects.all()[:4]
     products = Product.objects.filter(available=True)[:4]  # Only show first 4 products
     return render(
         request, "store/home.html", {"categories": categories, "products": products}
