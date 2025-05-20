@@ -1,8 +1,2270 @@
-{% extends 'base.html' %}
-{% block content %}
-  <h2>{{ product.name }}</h2>
-  <img src="{{ product.image.url }}" alt="{{ product.name }}">
-  <p>{{ product.description }}</p>
-  <p>Price: {{ product.price }}</p>
-  <form action="{% url 'AGElite_store:cart_add' product.id %}" method="post">{% csrf_token %}{{ cart_product_form.quantity }}<button type="submit">Add to cart</button></form>
-{% endblock %}
+<!DOCTYPE html>
+{% load static %}
+
+{% include 'commons/common_links.html' %}
+{% include 'commons/product_detail_commons/product_detail_common_links/common-links.html' %}
+
+<!-- header start -->
+<header class="header-style-2" id="home">
+
+  <div class="top-header demo2">
+    <div class="container-fluid-lg">
+      <div class="row">
+        <div class="col-auto d-xl-block d-none">
+          <ul class="border-list">
+            <li>Voxo ecommerce always free delivery</li>
+            <li>New Customer Extra 50% Off</li>
+          </ul>
+        </div>
+        <div class="col-auto d-sm-block d-none">
+          <p class="font-dark-30 mb-0">Offer Coupon Code : <span class="fw-bold">DEF4526</span></p>
+        </div>
+        <div class="col-auto">
+          <ul class="border-list">
+            <li>
+              <div class="dropdown top-header-dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0)" role="button" id="dropdownMenuLink"
+                  data-bs-toggle="dropdown">
+                  <span>Login & Register</span>
+                  <i class="fas fa-chevron-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li class="w-100">
+                    <a class="dropdown-item" href="/login_page">Log In</a>
+                  </li>
+                  <li class="w-100">
+                    <a class="dropdown-item" href="/signup_page">Register</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+
+            <li>
+              <div class="dropdown top-header-dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0)" role="button" id="dropdownMenuLink1"
+                  data-bs-toggle="dropdown">
+                  <ul class="border-list">
+                    <select id="currency-selection">
+                      <option id="currency-value" value="%">Currency</option>
+
+                      <option value="c9042d5a-cfb8-4a36-a09c-4c375d44e223">$ USD</option>
+
+                      <option value="d6ace1fc-7e97-4022-8283-5dc0b3b68ee1">₹ INR</option>
+
+                    </select>
+                    <script>
+
+                      var getColorValue = localStorage.getItem("colorValue");
+
+                      // Access the root element
+                      const root = document.documentElement;
+
+                      // Update the value of --theme-color
+                      root.style.setProperty('--theme-color', getColorValue);
+
+
+                      document.getElementById("currency-selection").addEventListener("change",
+                        async function () {
+                          var dropdown = document.getElementById(
+                            "currency-selection");
+                          var currencyId = dropdown.options[dropdown
+                            .selectedIndex].value;
+                          var csrftoken = getCookie("csrftoken");
+                          var url = "/set_currency_to_session";
+
+                          await fetch(url, {
+                            method: "POST",
+                            headers: {
+                              "Content-type": "application/json",
+                              "X-CSRFToken": csrftoken,
+                            },
+                            body: JSON.stringify({
+                              currencyId: currencyId,
+                            }),
+                          })
+                          location.reload();
+                        });
+                    </script>
+                  </ul>
+
+                </a>
+
+              </div>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="main-header navbar-searchbar">
+    <div class="container-fluid-lg">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="main-menu">
+            <div class="menu-left">
+              <div class="brand-logo">
+
+
+
+                <a href="/index_default">
+                  <svg class="svg-icon">
+                    <use class="fill-color" xlink:href="/voxo/voxoapp/static/assets/svg/icons.svg#logo"></use>
+                  </svg>
+                  <img loading="lazy" src="/voxo/voxoapp/static/assets/images/logo.png"
+                    class="img-fluid blur-up lazyload" alt="logo">
+                </a>
+              </div>
+              <div class="category-menu">
+                <div class="category-dropdown">
+                  <div class="close-btn d-xl-none">
+                    Category List
+                    <span class="back-category"><i class="fa fa-angle-left"></i>
+                    </span>
+                  </div>
+                  <ul>
+                    <li class="submenu">
+                      <a href="javascript:void(0)">watches</a>
+                      <ul class="category-mega-menu">
+                        <li>
+                          <div class="row">
+                            <div class="col-xl-3">
+                              <div class="category-childmenu">
+                                <div class="title-category">
+                                  <h6>Watch Brands</h6>
+                                </div>
+                                <ul>
+                                  <li>
+                                    <a href="/shop_left_slidebar">Coros</a>
+                                  </li>
+                                  <li>
+                                    <a href="/shop_left_slidebar">Titan</a>
+                                  </li>
+                                  <li>
+                                    <a href="/shop_left_slidebar">Citizen</a>
+                                  </li>
+                                  <li>
+                                    <a href="/shop_left_slidebar">Casio</a>
+                                  </li>
+                                  <li>
+                                    <a href="/shop_left_slidebar">Movado</a>
+                                  </li>
+                                  <li>
+                                    <a href="/shop_left_slidebar">Tissot</a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                            <div class="col-xl-3">
+                              <div class="category-childmenu">
+                                <div class="title-category">
+                                  <h6>Watch Display</h6>
+                                </div>
+                                <ul>
+                                  <li>
+                                    <a href="/shop_left_slidebar">Analog</a>
+                                  </li>
+                                  <li>
+                                    <a href="/shop_left_slidebar">Digital</a>
+                                  </li>
+                                  <li>
+                                    <a href="/shop_left_slidebar">Hybrid</a>
+                                  </li>
+                                  <li>
+                                    <a href="/shop_left_slidebar">Tactile</a>
+                                  </li>
+                                  <li>
+                                    <a href="/shop_left_slidebar">Touchscreen</a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                            <div class="col-xl-3">
+                              <div class="category-childmenu">
+                                <div class="title-category">
+                                  <h6>Watch Style</h6>
+                                  <ul>
+                                    <li>
+                                      <a href="/shop_left_slidebar">Casual</a>
+                                    </li>
+                                    <li>
+                                      <a href="/shop_left_slidebar">Dress</a>
+                                    </li>
+                                    <li>
+                                      <a href="/shop_left_slidebar">Fashion</a>
+                                    </li>
+                                    <li>
+                                      <a href="/shop_left_slidebar">Luxury</a>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                              <div class="col-xl-3">
+                                <div class="category-banner">
+                                  <img src="/voxo/voxoapp/static/assets/images/electronics/banner/4.jpg"
+                                    class="img-fluid blur-up lazyload" alt="" />
+                                </div>
+                              </div>
+                            </div>
+                        </li>
+                      </ul>
+                    </li>
+
+                    <li>
+                      <a href="/shop_left_slidebar">footwear</a>
+                    </li>
+
+                    <li class="submenu">
+                      <a href="javascript:void(0)">clothing</a>
+                      <ul class="category-mega-menu">
+                        <li>
+                          <div class="row">
+                            <div class="col-xl-3">
+                              <div class="category-childmenu">
+                                <div class="title-category">
+                                  <h6>Women's fashion</h6>
+                                </div>
+                                <ul>
+                                  <li>
+                                    <a href="/shop_left_slidebar">Dress</a>
+                                  </li>
+                                  <li>
+                                    <a href="/shop_left_slidebar">Skirts</a>
+                                  </li>
+                                  <li>
+                                    <a href="/shop_left_slidebar">Western wear</a>
+                                  </li>
+                                  <li>
+                                    <a href="/shop_left_slidebar">Etahnic wear</a>
+                                  </li>
+                                  <li>
+                                    <a href="/shop_left_slidebar">Sports wear</a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                            <div class="col-xl-3">
+                              <div class="category-childmenu">
+                                <div class="title-category">
+                                  <h6>Men's fashion</h6>
+                                </div>
+                                <ul>
+                                  <li>
+                                    <a href="/shop_left_slidebar">Sports wear</a>
+                                  </li>
+                                  <li>
+                                    <a href="/shop_left_slidebar">Etahnic wear</a>
+                                  </li>
+                                  <li>
+                                    <a href="/shop_left_slidebar">Western wear</a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                            <div class="col-xl-3">
+                              <div class="category-childmenu">
+                                <div class="title-category">
+                                  <h6>Accesories</h6>
+                                </div>
+                                <ul>
+                                  <li>
+                                    <a href="/shop_left_slidebar">earrings</a>
+                                  </li>
+                                  <li>
+                                    <a href="/shop_left_slidebar">fashion jewellery</a>
+                                  </li>
+                                  <li>
+                                    <a href="/shop_left_slidebar">ties</a>
+                                  </li>
+                                  <li>
+                                    <a href="/shop_left_slidebar">caps and hats</a>
+                                  </li>
+                                  <li>
+                                    <a href="/shop_left_slidebar">cufflinks</a>
+                                  </li>
+                                  <li>
+                                    <a href="/shop_left_slidebar">precious jewellery</a>
+                                  </li>
+                                  <li>
+                                    <a href="/shop_left_slidebar">necklaces</a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                            <div class="col-xl-3">
+                              <div class="category-banner">
+                                <img src="/voxo/voxoapp/static/assets/images/banner/1.jpg"
+                                  class="img-fluid blur-up lazyload" alt="" />
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </li>
+
+                    <li>
+                      <a href="/shop_left_slidebar">Accessories</a>
+                    </li>
+                    <li>
+                      <a href="/shop_left_slidebar">Home & decor</a>
+                    </li>
+                    <li>
+                      <a href="/shop_left_slidebar">Bags</a>
+                    </li>
+                    <li>
+                      <a href="/shop_left_slidebar">Kitchan</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <nav>
+              <div class="main-navbar">
+                <div id="mainnav">
+                  <button class="toggle-nav">
+                    <i class="fa fa-bars sidebar-bar"></i>
+                  </button>
+                  <ul class="nav-menu">
+                    <li class="back-btn d-xl-none">
+                      <div class="close-btn">
+                        Menu
+                        <span class="mobile-back"><i class="fa fa-angle-left"></i>
+                        </span>
+                      </div>
+                    </li>
+                    <!-- ===================================================================================== -->
+
+
+
+                    <li class="mega-menu dropdown home-menu">
+                      <a href="javascript:void(0)" class="nav-link menu-title">home</a>
+                      <div class="mega-menu-container menu-content">
+                        <div class="container-fluid">
+                          <div class="row">
+
+
+
+
+                            <div class="mega-box">
+                              <div class="link-section">
+                                <div class="opensubmegamenu">
+                                  <ul>
+
+                                    <li>
+                                      <a href="/index_default" class="megamenu-image">
+                                        <img loading="lazy"
+                                          src="/voxo/voxoapp/static/assets/images/demo-image/fashion.jpg"
+                                          class="img-fluid lazyload" alt="">
+                                      </a>
+                                    </li>
+
+                                  </ul>
+                                </div>
+
+                                <div class="megamenu-image-title pb-0">
+                                  <h5 class="mb-0">Fashion Demo</h5>
+                                </div>
+                              </div>
+                            </div>
+
+
+                            <div class="mega-box">
+                              <div class="link-section">
+                                <div class="opensubmegamenu">
+                                  <ul>
+
+                                    <li>
+                                      <a href="/vegetables_demo" class="megamenu-image">
+                                        <img loading="lazy"
+                                          src="/voxo/voxoapp/static/assets/images/demo-image/vagetables.jpg"
+                                          class="img-fluid lazyload" alt="">
+                                      </a>
+                                    </li>
+
+                                  </ul>
+                                </div>
+
+                                <div class="megamenu-image-title pb-0">
+                                  <h5 class="mb-0">Vegetable Demo</h5>
+                                </div>
+                              </div>
+                            </div>
+
+
+                            <div class="mega-box">
+                              <div class="link-section">
+                                <div class="opensubmegamenu">
+                                  <ul>
+
+                                    <li>
+                                      <a href="/shoes_demo" class="megamenu-image">
+                                        <img loading="lazy"
+                                          src="/voxo/voxoapp/static/assets/images/demo-image/shoes.jpg"
+                                          class="img-fluid lazyload" alt="">
+                                      </a>
+                                    </li>
+
+                                  </ul>
+                                </div>
+
+                                <div class="megamenu-image-title pb-0">
+                                  <h5 class="mb-0">Shoes Demo</h5>
+                                </div>
+                              </div>
+                            </div>
+
+
+                            <div class="mega-box">
+                              <div class="link-section">
+                                <div class="opensubmegamenu">
+                                  <ul>
+
+                                    <li>
+                                      <a href="/electronics_demo" class="megamenu-image">
+                                        <img loading="lazy"
+                                          src="/voxo/voxoapp/static/assets/images/demo-image/electonic.jpg"
+                                          class="img-fluid lazyload" alt="">
+                                      </a>
+                                    </li>
+
+                                  </ul>
+                                </div>
+
+                                <div class="megamenu-image-title pb-0">
+                                  <h5 class="mb-0">Electronics Demo</h5>
+                                </div>
+                              </div>
+                            </div>
+
+
+                            <div class="mega-box">
+                              <div class="link-section">
+                                <div class="opensubmegamenu">
+                                  <ul>
+
+                                    <li>
+                                      <a href="/flower_demo" class="megamenu-image">
+                                        <img loading="lazy"
+                                          src="/voxo/voxoapp/static/assets/images/demo-image/flower.jpg"
+                                          class="img-fluid lazyload" alt="">
+                                      </a>
+                                    </li>
+
+                                  </ul>
+                                </div>
+
+                                <div class="megamenu-image-title pb-0">
+                                  <h5 class="mb-0">Flower Demo</h5>
+                                </div>
+                              </div>
+                            </div>
+
+
+                            <div class="mega-box">
+                              <div class="link-section">
+                                <div class="opensubmegamenu">
+                                  <ul>
+
+                                    <li>
+                                      <a href="/furniture_demo" class="megamenu-image">
+                                        <img loading="lazy"
+                                          src="/voxo/voxoapp/static/assets/images/demo-image/furniture.jpg"
+                                          class="img-fluid lazyload" alt="">
+                                      </a>
+                                    </li>
+
+                                  </ul>
+                                </div>
+
+                                <div class="megamenu-image-title pb-0">
+                                  <h5 class="mb-0">Furniture Demo</h5>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="dropdown">
+                      <a href="javascript:void(0)" class="nav-link menu-title">shop</a>
+                      <ul class="nav-submenu menu-content">
+                        <li>
+                          <a href="/canvas_filter">Shop Canvas Filter</a>
+                        </li>
+                        <li>
+                          <a href="/category_filter">Shop Category Filter</a>
+                        </li>
+                        <li>
+                          <a href="/filter_hide">Shop Filter Hide</a>
+                        </li>
+                        <li>
+                          <a href="/shop_left_slidebar">Shop Left Sidebar
+                            <span>Trending</span></a>
+                        </li>
+                        <li>
+                          <a href="/list_infinite">Shop List Infinite</a>
+                        </li>
+                        <li>
+                          <a href="/shop_list">Shop List</a>
+                        </li>
+                        <li>
+                          <a href="/shop_no_sidebar">Shop No Sidebar</a>
+                        </li>
+                        <li>
+                          <a href="/shop_right_sidebar">Shop Right Sidebar</a>
+                        </li>
+                        <li>
+                          <a href="/shop_top_filter">Shop Top Filter</a>
+                        </li>
+                        <li>
+                          <a href="/shop_with_category">Shop With Category <span class="tren-budge">New</span></a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="dropdown">
+                      <a href="javascript:void(0)" class="nav-link menu-title">product</a>
+                      <ul class="nav-submenu menu-content">
+                        <li>
+
+                          <a href="/image_4/a2e7d080-0cee-4cad-9f5a-06410ca58f54">Product 4 Images</a>
+                        </li>
+                        <li>
+
+                          <a href="/product_360_view/a2e7d080-0cee-4cad-9f5a-06410ca58f54">Product 360 View</a>
+                        </li>
+                        <li>
+
+                          <a href="/bundle/a2e7d080-0cee-4cad-9f5a-06410ca58f54">Product Bundle</a>
+                        </li>
+                        <li>
+
+                          <a href="/product-detail/a2e7d080-0cee-4cad-9f5a-06410ca58f54">Product Left Sidebar</a>
+                        </li>
+                        <li>
+
+                          <a href="/left_thumbnail/a2e7d080-0cee-4cad-9f5a-06410ca58f54">Product Left thumbnail</a>
+                        </li>
+                        <li>
+
+                          <a href="/product_no_sidebar/a2e7d080-0cee-4cad-9f5a-06410ca58f54">Product No Sidebar</a>
+                        </li>
+                        <li>
+
+                          <a href="/product_right_slidebar/a2e7d080-0cee-4cad-9f5a-06410ca58f54">Product Right
+                            Sidebar</a>
+                        </li>
+                        <li>
+
+                          <a href="/right_thumbnail/a2e7d080-0cee-4cad-9f5a-06410ca58f54">Product Right Thumbnail</a>
+                        </li>
+                        <li>
+
+                          <a href="/sticky/a2e7d080-0cee-4cad-9f5a-06410ca58f54">Product Sticky</a>
+                        </li>
+                        <li>
+
+                          <a href="/video_thumbnail/a2e7d080-0cee-4cad-9f5a-06410ca58f54">Product Video Thumbnail</a>
+                        </li>
+                      </ul>
+                    </li>
+
+                    <li class="dropdown">
+                      <a href="javascript:void(0)" class="nav-link menu-title">pages</a>
+                      <ul class="nav-submenu menu-content">
+                        <li>
+                          <a href="/page_not_found">404</a>
+                        </li>
+                        <li>
+                          <a href="/cart_page">cart</a>
+                        </li>
+                        <li>
+                          <a href="/coming_soon">coming soon<span>trending</span></a>
+                        </li>
+                        <li>
+                          <a href="/compare_page">compare</a>
+                        </li>
+                        <li>
+
+                          <a href="/contact_us">contact us</a>
+                        </li>
+
+
+
+
+                        <li>
+                          <a href="/search_bar/">search</a>
+                        </li>
+                        <li>
+                          <a href="/user_dashboard">user dashboard</a>
+                        </li>
+                        <li>
+                          <a href="/wishlist_page">wishlist</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="dropdown">
+                      <a href="javascript:void(0)" class="nav-link menu-title">blog</a>
+                      <ul class="nav-submenu menu-content">
+                        <li>
+
+                          <a href="/blog_details/26d3bcc4-d79c-44b7-9ea0-b4839f48879e">Blog Details</a>
+
+                        </li>
+                        <li>
+                          <a href="/infinite_scroll">Blog Infinite Scroll</a>
+                        </li>
+                        <li>
+                          <a href="/left_sidebar">Blog Left Sidebar</a>
+                        </li>
+                        <li>
+                          <a href="/listing">Blog Listing</a>
+                        </li>
+                        <li>
+                          <a href="/masonary">blog Masonary <span>New</span></a>
+                        </li>
+                        <li>
+                          <a href="/no_sidebar">blog No Sidebar</a>
+                        </li>
+                        <li>
+                          <a href="/right_sidebar">Blog Right Sidebar</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <!-- ===================================================================================== -->
+
+                    <li class="mobile-poster d-flex d-xl-none">
+                      <img src="/voxo/voxoapp/static/assets/images/pwa.png" class="img-fluid" alt="" />
+                      <div class="mobile-contain">
+                        <h5>Enjoy app-like experience</h5>
+                        <p class="font-light">
+                          With this Screen option you can use Website like an
+                          App.
+                        </p>
+                        <a href="javascript:void(0)" id="installApp" class="btn btn-solid-default btn-spacing w-100">ADD
+                          TO HOMESCREEN</a>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+            <!-- menu-right========================================================================== -->
+            <div class="menu-right">
+              <ul>
+                <li>
+                  <div class="search-box" id="searchButton">
+                    <i data-feather="search"></i>
+                  </div>
+                </li>
+                <li class="onhover-dropdown">
+                  <div class="cart-media">
+                    <i data-feather="user"></i>
+                  </div>
+                  <div class="onhover-div profile-dropdown">
+                    <ul>
+
+                      <li>
+                        <a href="/login_page" class="d-block">Login</a>
+                      </li>
+                      <li>
+                        <a href="/signup_page" class="d-block">Register</a>
+                      </li>
+
+                    </ul>
+                  </div>
+                </li>
+                <li class="onhover-dropdown wislist-dropdown">
+                  <div class="cart-media">
+                    <a href="/wishlist_page">
+                      <i data-feather="heart"></i>
+
+                      <span class="label label-theme rounded-pill">0</span>
+
+                    </a>
+                  </div>
+                  <div class="onhover-div">
+                    <a href="/wishlist_page">
+                      <div class="wislist-empty">
+                        <i class="fab fa-gratipay"></i>
+
+
+                        <h6 class="mb-1">Your wislist empty !!</h6>
+
+                        <p class="font-light mb-0">
+                          explore more and shortlist items.
+                        </p>
+                      </div>
+                    </a>
+                  </div>
+                </li>
+                <li class="onhover-dropdown cart-dropdown">
+                  <button type="button" class="btn btn-solid-default btn-spacing" id="colorUsed">
+                    <i data-feather="shopping-cart" class="pe-2"></i>
+
+                    <span id="cartTotalPriceButton">$0.00</span>
+
+
+                  </button>
+                  <div class="onhover-div">
+                    <div class="cart-menu">
+                      <div class="cart-title">
+
+                        <h6>
+                          <i data-feather="shopping-bag"></i>
+                          <span class="label label-theme rounded-pill">0</span>
+                        </h6>
+
+                        <span class="d-md-none d-block">
+                          <i class="fas fa-arrow-right back-cart"></i>
+                        </span>
+                      </div>
+
+
+                      <ul class="custom-scroll">
+
+                        <li>
+                          <img src="/voxo/voxoapp/static/assets/images/cartEmpty.png" alt="" class="img-fluid" />
+                        </li>
+
+
+
+                    </div>
+                </li>
+              </ul>
+            </div>
+
+
+
+
+
+
+
+            <div class="search-full">
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i data-feather="search" class="font-light"></i>
+                </span>
+                <input type="text" class="form-control search-type" id="search-input" placeholder="Search here.."
+                  oninput="searchValue()">
+                <span class="input-group-text close-search">
+                  <i data-feather="x" class="font-light"></i>
+                </span>
+              </div>
+              <div id="search_results"></div>
+
+              <div class="search-suggestion" id="searchData">
+                <ul class="custom-scroll" id="realData">
+                </ul>
+              </div>
+            </div>
+
+
+
+            <script>
+
+              let query
+              async function searchValue() {
+                query = document.getElementById("search-input").value;
+                document.getElementById("search-input").innerHTML = "you search :" + query;
+
+
+
+                const response = await fetch(`/search_products/?q=${query}&category=`);
+
+                const productData = await response.json();
+                displayProductData(productData);
+              }
+
+              function displayProductData(productData) {
+                $("#realData").empty();
+
+                if (productData.data.length === 0) {
+                  $('#realData').append('<li class="no-results"> No products found! </li>');
+                  return;
+                }
+
+                productData.data.map(value => {
+                  let ratingHtml = '';
+                  if (parseInt(value.rating) < 5) {
+                    for (let i = 0; i < parseInt(value.rating); i++) {
+                      ratingHtml += '<li><a class="fas fa-star theme-color" id="productOfStar" href="/product-detail/' + value.id + '"></a></li>';
+                    }
+                    let emptyStars = 5 - parseInt(value.rating);
+                    for (let i = 0; i < emptyStars; i++) {
+                      ratingHtml += '<li><i class="fas fa-star"></i></li>';
+                    }
+                  } else {
+                    for (let i = 0; i < 5; i++) {
+                      ratingHtml += '<li><a class="fas fa-star theme-color" id="productOfStar" href="/product-detail/' + value.id + '"></a></li>';
+                    }
+                  }
+                  $("#realData").append(`<li>
+          <div class="product-cart media">
+            <a href="/product-detail/${value.id}">
+              <img
+                src="${value.image_url}"
+                href="/product-detail/${value.id}"
+                class="img-fluid blur-up lazyload"
+                alt=""
+              />
+            </a>
+
+            <div class="media-body">
+              <a href="/product-detail/${value.id}">
+                <h6 class="mb-1">${value.name}</h6>
+              </a>
+              <ul class="rating p-0">
+                ${ratingHtml}
+              </ul>
+              <a href="/product-detail/${value.id}" class="mb-0 mt-1">$${value.price}</a>
+            </div>
+          </div>
+      </li>`)
+                });
+              }
+            </script>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<!-- mobile fix menu start -->
+<div class="mobile-menu d-sm-none">
+  <ul>
+    <li>
+      <a href="/index_default" class="active">
+        <i data-feather="home"></i>
+        <span>Home</span>
+      </a>
+    </li>
+    <li>
+      <a href="javascript:void(0)" class="toggle-category">
+        <i data-feather="align-justify"></i>
+        <span>Category</span>
+      </a>
+    </li>
+    <li>
+      <a href="/cart_page">
+        <i data-feather="shopping-bag"></i>
+        <span>Cart</span>
+      </a>
+    </li>
+    <li>
+      <a href="/wishlist_page">
+        <i data-feather="heart"></i>
+        <span>Wishlist</span>
+      </a>
+    </li>
+    <li>
+      <a href="/user_dashboard">
+        <i data-feather="user"></i>
+        <span>Account</span>
+      </a>
+    </li>
+  </ul>
+</div>
+<!-- mobile fix menu end -->
+
+
+
+
+<!-- Breadcrumb section start -->
+<section class="breadcrumb-section section-b-space">
+  <ul class="circles">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h3>Product Sticky</h3>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="/index_default"><i class="fas fa-home"></i></a>
+            </li>
+            <li class="breadcrumb-item active">Product Sticky</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Breadcrumb section end -->
+
+
+
+
+
+<!-- Shop Section start -->
+<section>
+  <div class="container">
+    <div class="row gx-4 gy-5">
+      <div class="col-lg-12 col-12">
+        <div class="details-items">
+          <div class="row g-4">
+            <div class="col-md-6">
+              <div class="row g-4 ratio_asos">
+
+                <div class="col-12">
+                  <img loading="lazy" src="/fashion/product/multipleimages/1_VOEgc78.jpg"
+                    class="img-fluid w-100 image_zoom_cls-2 blur-up lazyload" alt="">
+                </div>
+
+                <div class="col-12">
+                  <img loading="lazy" src="/fashion/product/multipleimages/1_qRcNPPm.jpg"
+                    class="img-fluid w-100 image_zoom_cls-2 blur-up lazyload" alt="">
+                </div>
+
+                <div class="col-12">
+                  <img loading="lazy" src="/fashion/product/multipleimages/6_UEfVvfE.jpg"
+                    class="img-fluid w-100 image_zoom_cls-2 blur-up lazyload" alt="">
+                </div>
+
+                <div class="col-12">
+                  <img loading="lazy" src="/fashion/product/multipleimages/8_YIZVThr.jpg"
+                    class="img-fluid w-100 image_zoom_cls-2 blur-up lazyload" alt="">
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="cloth-details-size">
+                <div class="product-count">
+                  <ul>
+                    <li>
+                      <img loading="lazy" src="/voxo/voxoapp/static/assets/images/gif/fire.gif"
+                        class="img-fluid blur-up lazyload" alt="image">
+                      <span class="p-counter">37</span>
+                      <span class="lang">orders in last 24 hours</span>
+                    </li>
+                    <li>
+                      <img loading="lazy" src="/voxo/voxoapp/static/assets/images/gif/person.gif"
+                        class="img-fluid user_img blur-up lazyload" alt="image">
+                      <span class="p-counter">44</span>
+                      <span class="lang">active view this</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="details-image-concept">
+                  <h2>Hoodie</h2>
+                </div>
+
+                <div class="label-section">
+                  <span class="badge badge-grey-color">#1 Best seller</span>
+                  <span class="label-text">in Jeans</span>
+                </div>
+
+                <h3 class="price-detail" id="productFinalPrice">
+
+                  $45.00
+
+
+
+                  <del id="actualPrice">$50.00</del>
+                  <span id="discountPercentage">10% - 15% off </span>
+
+                </h3>
+
+                <div class="addeffect-box">
+
+
+
+                  <div class="addeffect-section product-description">
+                    <div class="size-box">
+                      <h5>Size :</h5>
+                      <ul>
+
+                        <li>
+                          <a
+                            onclick="show_details_ls({key:'selectedSize',value:'S',id:'a2e7d080-0cee-4cad-9f5a-06410ca58f54', attributeNameList: ['selectedSize','selectedColor',]})">S</a>
+                        </li>
+
+                        <li>
+                          <a
+                            onclick="show_details_ls({key:'selectedSize',value:'M',id:'a2e7d080-0cee-4cad-9f5a-06410ca58f54', attributeNameList: ['selectedSize','selectedColor',]})">M</a>
+                        </li>
+
+                      </ul>
+                      <input type="hidden" name="" value="" id="selectedSize" />
+                    </div>
+                  </div>
+
+
+
+                  <div class="addeffect-section product-description">
+                    <div class="size-box">
+                      <h5>Color :</h5>
+                      <ul>
+
+                        <li>
+                          <a
+                            onclick="show_details_ls({key:'selectedColor',value:'Red',id:'a2e7d080-0cee-4cad-9f5a-06410ca58f54', attributeNameList: ['selectedSize','selectedColor',]})">Red</a>
+                        </li>
+
+                        <li>
+                          <a
+                            onclick="show_details_ls({key:'selectedColor',value:'Green',id:'a2e7d080-0cee-4cad-9f5a-06410ca58f54', attributeNameList: ['selectedSize','selectedColor',]})">Green</a>
+                        </li>
+
+                      </ul>
+                      <input type="hidden" name="" value="" id="selectedColor" />
+                    </div>
+                  </div>
+
+
+
+                </div>
+
+                <h6 class="product-title product-title-2 d-block">quantity</h6>
+                <div class="qty-box">
+                  <div class="input-group">
+                    <span class="input-group-prepend">
+                      <button type="button" class="btn quantity-left-minus" data-type="minus" data-field=""
+                        onclick="counterMinus({key:'counterAtLeftSlidebar'})">
+                        <i class="fas fa-minus"></i>
+                      </button>
+                    </span>
+                    <input id="counterAtLeftSlidebar" type="text" readonly name="quantity" class="form-control"
+                      value="1" />
+                    <span class="input-group-prepend">
+                      <button type="button" class="btn quantity-right-plus" data-type="plus" data-field=""
+                        onclick="counterPlus({key:'counterAtLeftSlidebar'})">
+                        <i class="fas fa-plus"></i>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="product-buttons">
+                  <a id="wishlistEffect" href="/add_to_wishlist/2ee68748-8034-4f85-a78f-2d93ce2e7ba1"
+                    class="btn btn-solid wishlist">
+                    <i class="fa fa-bookmark fz-16 me-2"></i>
+                    <span>Wishlist</span>
+                  </a>
+                  <a id="cartEffect" onclick="add_to_cart_fun({key:'2ee68748-8034-4f85-a78f-2d93ce2e7ba1'})"
+                    class="btn btn-solid hover-solid btn-animation">
+                    <i class="fa fa-shopping-cart"></i>
+                    <span>Add To Cart</span>
+                  </a>
+                </div>
+
+                <ul class="product-count shipping-order">
+                  <li>
+                    <img loading="lazy" src="/voxo/voxoapp/static/assets/images/gif/truck.png"
+                      class="img-fluid blur-up lazyload" alt="image">
+                    <span class="lang">Free shipping for orders above $500 USD</span>
+                  </li>
+                </ul>
+
+                <div class="mt-2 mt-md-3 border-product">
+
+                  <h6 class="product-title hurry-title d-block">Hurry Up! Left
+                    <span>41</span> in
+                    stock
+                  </h6>
+                  <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 78%"></div>
+                  </div>
+                  <div class="font-light timer-5">
+                    <h5>Order in the next to get</h5>
+                    <ul class="timer1">
+                      <li class="counter">
+                        <h5 id="days1">&#9251;</h5> Days :
+                      </li>
+                      <li class="counter">
+                        <h5 id="hours1">&#9251;</h5> Hour :
+                      </li>
+                      <li class="counter">
+                        <h5 id="minutes1">&#9251;</h5> Min :
+                      </li>
+                      <li class="counter">
+                        <h5 id="seconds1">&#9251;</h5> Sec
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="border-product pb-0">
+                  <h6 class="product-title d-block">share it</h6>
+                  <div class="product-icon">
+                    <ul class="product-social">
+                      <li>
+                        <a href="https://www.facebook.com/">
+                          <i class="fab fa-facebook-f"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="https://www.google.com/">
+                          <i class="fab fa-google-plus-g"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="https://twitter.com/">
+                          <i class="fab fa-twitter"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="https://www.instagram.com/">
+                          <i class="fab fa-instagram"></i>
+                        </a>
+                      </li>
+                      <li class="pe-0">
+                        <a href="https://www.google.com/">
+                          <i class="fas fa-rss"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="cloth-review">
+          <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+              <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#desc"
+                type="button">Description</button>
+
+              <button class="nav-link" id="nav-speci-tab" data-bs-toggle="tab" data-bs-target="#speci"
+                type="button">Specifications</button>
+
+              <button class="nav-link" id="nav-size-tab" data-bs-toggle="tab" data-bs-target="#nav-guide"
+                type="button">Sizing Guide</button>
+
+              <button class="nav-link" id="nav-question-tab" data-bs-toggle="tab" data-bs-target="#question"
+                type="button">Q & A</button>
+
+              <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#review"
+                type="button">Review</button>
+            </div>
+          </nav>
+
+          <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="desc">
+              <div class="shipping-chart">
+                <div class="part">
+                  <h4 class="inner-title mb-2">Give you a complete account of the system</h4>
+                  <p class="font-light">Nor again is there anyone who loves or pursues or desires
+                    to
+                    obtain pain of itself, because it is pain, but because occasionally
+                    circumstances occur in which toil and pain can procure him some great
+                    pleasure.
+                    To take a trivial example, which of us ever undertakes laborious physical
+                    exercise, except to obtain some advantage from it? But who has any right to
+                    find
+                    fault with a man who chooses to enjoy a pleasure that has no annoying
+                    consequences, or one who avoids a pain that produces no resultant pleasure.
+                  </p>
+                </div>
+
+                <div class="row g-3 align-items-center">
+                  <div class="col-lg-8">
+                    <p class="font-light">Lorem ipsum dolor sit amet, consectetur adipisicing
+                      elit.
+                      Ab, autem nemo? Tempora vitae assumenda laudantium unde magni, soluta
+                      repudiandae quam, neque voluptate deleniti consequatur laboriosam
+                      veritatis?
+                      Tempore dolor molestias voluptatum! Minima possimus, pariatur sed, quasi
+                      provident dolorum unde molestias, assumenda consequuntur odit magni
+                      blanditiis obcaecati? Ea corporis odit dolorem fuga, fugiat soluta
+                      consequuntur magni.</p>
+
+                    <div class="part mt-3">
+                      <h5 class="inner-title mb-2">fabric:</h5>
+                      <p class="font-light">Art silk is manufactured by synthetic fibres like
+                        rayon. It's light in weight and is soft on the skin for comfort in
+                        summers.Art silk is manufactured by synthetic fibres like rayon.
+                        It's
+                        light in weight and is soft on the skin for comfort in summers.</p>
+                      <p class="font-light">Lorem Ipsum is simply dummy text of the printing
+                        and typesetting industry. Lorem Ipsum has been the industry's
+                        standard dummy text ever since the 1500s</p>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4">
+                    <img loading="lazy" src="/voxo/voxoapp/static/assets/images/fashion/slider/1.jpg"
+                      class="img-fluid rounded blur-up lazyload" alt="">
+                  </div>
+
+                  <div class="col-lg-8 order-lg-2 mt-4">
+                    <p class="font-light">Lorem ipsum dolor sit amet, consectetur adipisicing
+                      elit.
+                      Ab, autem nemo? Tempora vitae assumenda laudantium unde magni, soluta
+                      repudiandae quam, neque voluptate deleniti consequatur laboriosam
+                      veritatis?
+                      Tempore dolor molestias voluptatum! Minima possimus, pariatur sed, quasi
+                      provident dolorum unde molestias, assumenda consequuntur odit magni
+                      blanditiis obcaecati? Ea corporis odit dolorem fuga, fugiat soluta
+                      consequuntur magni.</p>
+                    <div class="part mt-3">
+                      <p class="font-light">Lorem ipsum, dolor sit amet consectetur
+                        adipisicing
+                        elit. Odio repellat numquam perspiciatis eum quis ab, sed dicta
+                        tenetur
+                        fugit culpa, aut distinctio deserunt quisquam ipsam reprehenderit
+                        iure?
+                        Adipisci, optio enim? Voluptates voluptatum neque id ad commodi
+                        quisquam
+                        dolorem vitae inventore quasi! Officiis facere, iusto tempore atque
+                        magnam voluptas. Architecto laboriosam deleniti hic veritatis
+                        nesciunt.
+                        Aut officia quasi inventore et. Debitis.</p>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 order-lg-0 mt-4">
+                    <img loading="lazy" src="/voxo/voxoapp/static/assets/images/fashion/slider/2.jpg"
+                      class="img-fluid rounded blur-up lazyload" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-pane fade" id="speci">
+              <div class="pro mb-4">
+                <p class="font-light">The Model is wearing a white blouse from our stylist's
+                  collection, see the image for a mock-up of what the actual blouse would look
+                  like.it has text written on it in a black cursive language which looks great
+                  on a white color.</p>
+                <div class="table-responsive">
+                  <table class="table table-part">
+                    <tr>
+                      <th>Product Dimensions</th>
+                      <td>15 x 15 x 3 cm; 250 Grams</td>
+                    </tr>
+                    <tr>
+                      <th>Date First Available</th>
+                      <td>5 April 2021</td>
+                    </tr>
+                    <tr>
+                      <th>Manufacturer‏</th>
+                      <td>Aditya Birla Fashion and Retail Limited</td>
+                    </tr>
+                    <tr>
+                      <th>ASIN</th>
+                      <td>B06Y28LCDN</td>
+                    </tr>
+                    <tr>
+                      <th>Item model number</th>
+                      <td>AMKP317G04244</td>
+                    </tr>
+                    <tr>
+                      <th>Department</th>
+                      <td>Men</td>
+                    </tr>
+                    <tr>
+                      <th>Item Weight</th>
+                      <td>250 G</td>
+                    </tr>
+                    <tr>
+                      <th>Item Dimensions LxWxH</th>
+                      <td>15 x 15 x 3 Centimeters</td>
+                    </tr>
+                    <tr>
+                      <th>Net Quantity</th>
+                      <td>1 U</td>
+                    </tr>
+                    <tr>
+                      <th>Included Components‏</th>
+                      <td>1-T-shirt</td>
+                    </tr>
+                    <tr>
+                      <th>Generic Name</th>
+                      <td>T-shirt</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-pane fade overflow-auto" id="nav-guide">
+              <div class="table-responsive">
+                <table class="table table-pane mb-0">
+                  <tbody>
+                    <tr class="bg-color">
+                      <th class="my-2">US Sizes</th>
+                      <td>6</td>
+                      <td>6.5</td>
+                      <td>7</td>
+                      <td>8</td>
+                      <td>8.5</td>
+                      <td>9</td>
+                      <td>9.5</td>
+                      <td>10</td>
+                      <td>10.5</td>
+                      <td>11</td>
+                    </tr>
+
+                    <tr>
+                      <th>Euro Sizes</th>
+                      <td>39</td>
+                      <td>39</td>
+                      <td>40</td>
+                      <td>40-41</td>
+                      <td>41</td>
+                      <td>41-42</td>
+                      <td>42</td>
+                      <td>42-43</td>
+                      <td>43</td>
+                      <td>43-44</td>
+                    </tr>
+
+                    <tr class="bg-color">
+                      <th>UK Sizes</th>
+                      <td>5.5</td>
+                      <td>6</td>
+                      <td>6.5</td>
+                      <td>7</td>
+                      <td>7.5</td>
+                      <td>8</td>
+                      <td>8.5</td>
+                      <td>9</td>
+                      <td>10.5</td>
+                      <td>11</td>
+                    </tr>
+
+                    <tr>
+                      <th>Inches</th>
+                      <td>9.25"</td>
+                      <td>9.5"</td>
+                      <td>9.625"</td>
+                      <td>9.75"</td>
+                      <td>9.9735"</td>
+                      <td>10.125"</td>
+                      <td>10.25"</td>
+                      <td>10.5"</td>
+                      <td>10.765"</td>
+                      <td>10.85</td>
+                    </tr>
+
+                    <tr class="bg-color">
+                      <th>CM</th>
+                      <td>23.5</td>
+                      <td>24.1</td>
+                      <td>24.4</td>
+                      <td>25.4</td>
+                      <td>25.7</td>
+                      <td>26</td>
+                      <td>26.7</td>
+                      <td>27</td>
+                      <td>27.3</td>
+                      <td>27.5</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="tab-pane fade" id="question">
+              <div class="question-answer">
+                <ul>
+                  <li>
+                    <div class="que">
+                      <i class="fas fa-question"></i>
+                      <div class="que-details">
+                        <h6>Is it compatible with all WordPress themes?</h6>
+                        <p class="font-light">If you want to see a demonstration version of
+                          the premium plugin, you can see that in this page. If you want
+                          to see a demonstration version of the premium plugin, you can
+                          see that in this page. If you want to see a demonstration
+                          version of the premium plugin, you can see that in this page.
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+
+                  <li>
+                    <div class="que">
+                      <i class="fas fa-question"></i>
+                      <div class="que-details">
+                        <h6>How can I try the full-featured plugin? </h6>
+                        <p class="font-light">Compatibility with all themes is impossible,
+                          because they are too many, but generally if themes are developed
+                          according to WordPress and WooCommerce guidelines, YITH plugins
+                          are compatible with them. Compatibility with all themes is
+                          impossible, because they are too many, but generally if themes
+                          are developed according to WordPress and WooCommerce guidelines,
+                          YITH plugins are compatible with them.</p>
+                      </div>
+                    </div>
+                  </li>
+
+                  <li>
+                    <div class="que">
+                      <i class="fas fa-question"></i>
+                      <div class="que-details">
+                        <h6>Is it compatible with all WordPress themes?</h6>
+                        <p class="font-light">If you want to see a demonstration version of
+                          the premium plugin, you can see that in this page. If you want
+                          to see a demonstration version of the premium plugin, you can
+                          see that in this page. If you want to see a demonstration
+                          version of the premium plugin, you can see that in this page.
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="tab-pane fade" id="review">
+              <div class="row g-4">
+                <div class="col-lg-4">
+                  <div class="customer-rating">
+                    <h2>Customer reviews </h2>
+                    <ul class="rating my-2 d-inline-block">
+                      <!-- ------------------------------------------------------------------- -->
+
+
+                      <li>
+                        <a class="fas fa-star theme-color" id="productOfStar"
+                          href="/product-detail/a2e7d080-0cee-4cad-9f5a-06410ca58f54"></a>
+                      </li>
+
+
+
+                      <li>
+                        <a class="fas fa-star theme-color" id="productOfStar"
+                          href="/product-detail/a2e7d080-0cee-4cad-9f5a-06410ca58f54"></a>
+                      </li>
+
+
+
+                      <li>
+                        <a class="fas fa-star theme-color" id="productOfStar"
+                          href="/product-detail/a2e7d080-0cee-4cad-9f5a-06410ca58f54"></a>
+                      </li>
+
+
+
+                      <li>
+                        <a class="fas fa-star theme-color" id="productOfStar"
+                          href="/product-detail/a2e7d080-0cee-4cad-9f5a-06410ca58f54"></a>
+                      </li>
+
+
+
+                      <li>
+                        <a class="fas fa-star theme-color" id="productOfStar"
+                          href="/product-detail/a2e7d080-0cee-4cad-9f5a-06410ca58f54"></a>
+                      </li>
+
+
+                      <!-- ------------------------------------------------------------------- -->
+                    </ul>
+
+                    <div class="global-rating">
+                      <h5 class="font-light">5 Ratings
+                      </h5>
+                    </div>
+
+
+                    <ul class="rating-progess">
+                      <li>
+                        <h5 class="me-3">5 Star</h5>
+                        <div class="progress">
+                          <div class="progress-bar" role="progressbar" style="width: 100.0%">
+                          </div>
+                        </div>
+                        <h5 class="ms-3">
+                          100.0%</h5>
+                      </li>
+                      <li>
+                        <h5 class="me-3">4 Star</h5>
+                        <div class="progress">
+                          <div class="progress-bar" role="progressbar" style="width: 0.0%">
+                          </div>
+                        </div>
+                        <h5 class="ms-3">
+                          0.0%</h5>
+                      </li>
+                      <li>
+                        <h5 class="me-3">3 Star</h5>
+                        <div class="progress">
+                          <div class="progress-bar" role="progressbar" style="width: 0.0%">
+                          </div>
+                        </div>
+                        <h5 class="ms-3">
+                          0.0%</h5>
+                      </li>
+                      <li>
+                        <h5 class="me-3">2 Star</h5>
+                        <div class="progress">
+                          <div class="progress-bar" role="progressbar" style="width: 0.0%">
+                          </div>
+                        </div>
+                        <h5 class="ms-3">
+                          0.0%</h5>
+                      </li>
+                      <li>
+                        <h5 class="me-3">1 Star</h5>
+                        <div class="progress">
+                          <div class="progress-bar" role="progressbar" style="width: 0.0%">
+                          </div>
+                        </div>
+                        <h5 class="ms-3">
+                          0.0%</h5>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+
+
+
+                <div class="col-12 mt-4">
+                  <div class="customer-review-box">
+                    <h4>Customer Reviews </h4><br>
+
+
+
+                    <div class="customer-section">
+                      <div class="customer-profile">
+                        <img loading="lazy" src="/fashion/user/3_xxho6oQ.png" class="img-fluid blur-up lazyload"
+                          alt="" />
+                      </div>
+
+                      <div class="customer-details">
+                        <h5>admin@gmail.com</h5>
+                        <ul class="rating my-2 d-inline-block">
+                          <!-- ------------------------------------------------------------------- -->
+
+
+                          <li>
+                            <i class="fas fa-star theme-color"></i>
+                          </li>
+                          <li>
+                            <i class="fas fa-star theme-color"></i>
+                          </li>
+                          <li>
+                            <i class="fas fa-star theme-color"></i>
+                          </li>
+                          <li>
+                            <i class="fas fa-star theme-color"></i>
+                          </li>
+                          <li>
+                            <i class="fas fa-star theme-color"></i>
+                          </li>
+
+                          <!-- ------------------------------------------------------------------- -->
+                        </ul>
+                        <p class="font-light">
+                          Best hoodie
+                        </p>
+
+                        <p class="date-custo font-light"></p>
+                      </div>
+                    </div>
+
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+<!-- Shop Section end -->
+
+
+<!-- product section start -->
+<section class="ratio_asos section-b-space overflow-hidden">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="mb-lg-4 mb-3">Customers Also Bought These</h2>
+        <div class="product-wrapper product-style-2 slide-4 p-0 light-arrow bottom-space">
+
+
+          <div>
+            <div class="product-box" id="allProducts">
+              <div class="img-wrapper">
+                <div class="front">
+                  <a href="/product-detail/6ffb3fa3-513a-4d7b-93b0-92f2fcf15e77">
+                    <img loading="lazy" src="/fashion/product/front/3_C7phkb0.jpg" class="bg-img blur-up lazyload"
+                      alt="">
+                    <img loading="lazy" src="/fashion/product/front/3_C7phkb0.jpg" class="bg-img blur-up lazyload"
+                      alt="">
+                  </a>
+                </div>
+                <div class="back">
+                  <a href="/product-detail/6ffb3fa3-513a-4d7b-93b0-92f2fcf15e77">
+                    <img loading="lazy" src="/fashion/product/back/3_zDAL3jj.jpg" class="bg-img blur-up lazyload"
+                      alt="">
+                    <img loading="lazy" src="/fashion/product/back/3_zDAL3jj.jpg" class="bg-img blur-up lazyload"
+                      alt="">
+                  </a>
+                </div>
+                <div class="cart-wrap">
+                  <ul>
+                    <li>
+                      <a href="/add_to_cart/38d7bae9-72a6-471d-bce4-d8cc4b36418e/1" class="addtocart-btn">
+                        <i data-feather="shopping-bag"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <a onclick="handleQuickView({'productId':'6ffb3fa3-513a-4d7b-93b0-92f2fcf15e77','productVariantId':'38d7bae9-72a6-471d-bce4-d8cc4b36418e'})"
+                        data-bs-toggle="modal" href="#quick-view">
+                        <i data-feather="eye"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/compare_products/38d7bae9-72a6-471d-bce4-d8cc4b36418e" class="add-to-compare-list">
+                        <i data-feather="refresh-cw"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/add_to_wishlist/38d7bae9-72a6-471d-bce4-d8cc4b36418e" class="wishlist">
+                        <i data-feather="heart"></i>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="product-details">
+                <div class="rating-details">
+                  <span class="font-light grid-content">Jeans</span>
+                  <div class="star-rating">
+                    <ul class="rating mt-0">
+                      <!-- ------------------------------------------------------------------- -->
+
+
+                      <li><i class="fas fa-star theme-color"></i></li>
+
+                      <li><i class="fas fa-star theme-color"></i></li>
+
+                      <li><i class="fas fa-star theme-color"></i></li>
+
+
+
+
+                      <li>
+                        <i class="fas fa-star"></i>
+                      </li>
+
+                      <li>
+                        <i class="fas fa-star"></i>
+                      </li>
+
+
+
+
+                      <!-- ------------------------------------------------------------------- -->
+                    </ul>
+                  </div>
+                </div>
+                <div class="main-price">
+                  <a href="/shop_left_slidebar" class="font-default">
+                    <h5>Allen Solly</h5>
+                  </a>
+                  <div class="listing-content">
+                    <span class="font-light">Regular Fit</span>
+                    <p class="font-light">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                      Sit, deserunt? Asperiores aliquam voluptatum culpa aliquid
+                      ab ducimus eaque illum, quibusdam reiciendis id ad
+                      consectetur quis, animi qui, minus quidem eveniet! Dolorum
+                      magnam numquam, asperiores accusantium architecto placeat
+                      quam officia, tempore repellendus.
+                    </p>
+                  </div>
+
+
+
+                  <h3 class="theme-color">
+                    $51.00
+                  </h3>
+
+
+                  <button onclick="location.href = '/add_to_cart/38d7bae9-72a6-471d-bce4-d8cc4b36418e/1';"
+                    class="btn listing-content">Add
+                    To Cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="product-box" id="allProducts">
+              <div class="img-wrapper">
+                <div class="front">
+                  <a href="/product-detail/b5eddca5-f036-41b4-8c27-d0464f281863">
+                    <img loading="lazy" src="/fashion/product/front/8_UFHGgti.jpg" class="bg-img blur-up lazyload"
+                      alt="">
+                    <img loading="lazy" src="/fashion/product/front/8_UFHGgti.jpg" class="bg-img blur-up lazyload"
+                      alt="">
+                  </a>
+                </div>
+                <div class="back">
+                  <a href="/product-detail/b5eddca5-f036-41b4-8c27-d0464f281863">
+                    <img loading="lazy" src="/fashion/product/back/8_omFPmhL.jpg" class="bg-img blur-up lazyload"
+                      alt="">
+                    <img loading="lazy" src="/fashion/product/back/8_omFPmhL.jpg" class="bg-img blur-up lazyload"
+                      alt="">
+                  </a>
+                </div>
+                <div class="cart-wrap">
+                  <ul>
+                    <li>
+                      <a href="/add_to_cart/3cdf655b-de8c-4703-962e-80d76adfb528/1" class="addtocart-btn">
+                        <i data-feather="shopping-bag"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <a onclick="handleQuickView({'productId':'b5eddca5-f036-41b4-8c27-d0464f281863','productVariantId':'3cdf655b-de8c-4703-962e-80d76adfb528'})"
+                        data-bs-toggle="modal" href="#quick-view">
+                        <i data-feather="eye"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/compare_products/3cdf655b-de8c-4703-962e-80d76adfb528" class="add-to-compare-list">
+                        <i data-feather="refresh-cw"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/add_to_wishlist/3cdf655b-de8c-4703-962e-80d76adfb528" class="wishlist">
+                        <i data-feather="heart"></i>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="product-details">
+                <div class="rating-details">
+                  <span class="font-light grid-content">Jeans</span>
+                  <div class="star-rating">
+                    <ul class="rating mt-0">
+                      <!-- ------------------------------------------------------------------- -->
+
+
+                      <li><i class="fas fa-star theme-color"></i></li>
+
+                      <li><i class="fas fa-star theme-color"></i></li>
+
+                      <li><i class="fas fa-star theme-color"></i></li>
+
+
+
+
+                      <li>
+                        <i class="fas fa-star"></i>
+                      </li>
+
+                      <li>
+                        <i class="fas fa-star"></i>
+                      </li>
+
+
+
+
+                      <!-- ------------------------------------------------------------------- -->
+                    </ul>
+                  </div>
+                </div>
+                <div class="main-price">
+                  <a href="/shop_left_slidebar" class="font-default">
+                    <h5>T-shirt</h5>
+                  </a>
+                  <div class="listing-content">
+                    <span class="font-light">Regular Fit</span>
+                    <p class="font-light">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                      Sit, deserunt? Asperiores aliquam voluptatum culpa aliquid
+                      ab ducimus eaque illum, quibusdam reiciendis id ad
+                      consectetur quis, animi qui, minus quidem eveniet! Dolorum
+                      magnam numquam, asperiores accusantium architecto placeat
+                      quam officia, tempore repellendus.
+                    </p>
+                  </div>
+
+
+
+                  <h3 class="theme-color">$108.00
+                  </h3>
+
+
+                  <button onclick="location.href = '/add_to_cart/3cdf655b-de8c-4703-962e-80d76adfb528/1';"
+                    class="btn listing-content">Add
+                    To Cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- product section end -->
+
+
+
+
+
+
+
+
+<!-- Subscibe Section Start -->
+<section class="subscribe-section section-b-space">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-6">
+        <div class="subscribe-details">
+          <h2 class="mb-3">Subscribe Our News</h2>
+          <h6 class="font-light">
+            Subscribe and receive our newsletters to follow the news about
+            our fresh and fantastic Products.
+          </h6>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6 mt-md-0 mt-3">
+        <div class="subsribe-input">
+          <div class="input-group">
+            <input type="text" class="form-control subscribe-input" placeholder="Your Email Address" />
+            <button class="btn btn-solid-default" type="button">
+              Button
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Subscibe Section End -->
+
+
+
+
+
+
+
+<footer class="footer-sm-space">
+  <div class="main-footer">
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="footer-contact">
+            <div class="brand-logo">
+
+              <a href="/index_default" class="footer-logo">
+                <svg class="svg-icon">
+                  <use class="fill-color" xlink:href="/voxo/voxoapp/static/assets/svg/icons.svg#logo"></use>
+                </svg>
+                <img loading="lazy" src="/voxo/voxoapp/static/assets/images/logo.png" class="img-fluid blur-up lazyload"
+                  alt="logo">
+              </a>
+            </div>
+            <ul class="contact-lists">
+              <li>
+                <span>
+                  <b>phone:</b>
+                  <span class="font-light"> 9878454645</span>
+                </span>
+
+              </li>
+              <li>
+                <span>
+                  <b>Address:</b>
+                  <span class="font-light">Nagri Bldg, 1st Hasnabad Lane, Santacruz (west), Mumbai ,
+                    Maharashtra,400054,India.</span>
+                </span>
+              </li>
+              <li>
+                <span>
+                  <b>Email:</b>
+                  <span class="font-light"> admin@gmail.com</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6">
+          <div class="footer-links">
+            <div class="footer-title">
+              <h3>About us</h3>
+            </div>
+            <div class="footer-content">
+              <ul>
+                <li>
+                  <a href="/index_default" class="font-dark">Home</a>
+                </li>
+                <li>
+                  <a href="/shop_left_slidebar" class="font-dark">Shop</a>
+                </li>
+                <li>
+                  <a href="/contact_us" class="font-dark">About Us</a>
+                </li>
+                <li>
+                  <a href="/listing" class="font-dark">Blog</a>
+                </li>
+                <li>
+                  <a href="/contact_us" class="font-dark">Contact</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+          <div class="footer-links">
+            <div class="footer-title">
+              <h3>New Categories</h3>
+            </div>
+            <div class="footer-content">
+              <ul>
+                <li>
+                  <a href="/shop_left_slidebar" class="font-dark">Latest Shoes</a>
+                </li>
+                <li>
+                  <a href="/shop_left_slidebar" class="font-dark">Branded Jeans</a>
+                </li>
+                <li>
+                  <a href="/shop_left_slidebar" class="font-dark">New Jackets</a>
+                </li>
+                <li>
+                  <a href="/shop_left_slidebar" class="font-dark">Colorfull Hoodies</a>
+                </li>
+                <li>
+                  <a href="/shop_left_slidebar" class="font-dark">Shiner Goggles</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+          <div class="footer-links">
+            <div class="footer-title">
+              <h3>Get Help</h3>
+            </div>
+            <div class="footer-content">
+              <ul>
+                <li>
+                  <a href="/user_dashboard" class="font-dark">Your Orders</a>
+                </li>
+                <li>
+                  <a href="/user_dashboard" class="font-dark">Your Account</a>
+                </li>
+                <li>
+                  <a href="/user_dashboard" class="font-dark">Track Orders</a>
+                </li>
+                <li>
+                  <a href="/wishlist_page" class="font-dark">Your Wishlist</a>
+                </li>
+                <li>
+                  <a href="javascript:void(0)" class="font-dark">Shopping FAQs</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-sm-6 d-none d-sm-block">
+          <div class="footer-newsletter">
+            <h3>Let’s stay in touch</h3>
+            <form
+              action="https://pixelstrap.us19.list-manage.com/subscribe/post?u=5a128856334b598b395f1fc9b&amp;id=082f74cbda"
+              class="form-newsletter  needs-validation" method="post" id="mc-embedded-subscribe-form"
+              name="mc-embedded-subscribe-form" target="_blank">
+              <div class="input-group mb-4">
+                <input type="text" class="form-control" placeholder="Your Email Address">
+                <span class="input-group-text" id="basic-addon4"><i class="fas fa-arrow-right"></i></span>
+              </div>
+              <p class="font-dark mb-0">Keep up to date with our latest news and special offers.
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sub-footer">
+    <div class="container">
+      <div class="row gy-3">
+        <div class="col-md-6">
+          <ul>
+            <li class="font-dark">We accept:</li>
+            <li>
+              <a href="javascript:void(0)">
+                <img loading="lazy" src="/voxo/voxoapp/static/assets/images/payment-icon/1.jpg"
+                  class="img-fluid blur-up lazyload" alt="payment icon"></a>
+            </li>
+            <li>
+              <a href="javascript:void(0)">
+                <img loading="lazy" src="/voxo/voxoapp/static/assets/images/payment-icon/2.jpg"
+                  class="img-fluid blur-up lazyload" alt="payment icon"></a>
+            </li>
+            <li>
+              <a href="javascript:void(0)">
+                <img loading="lazy" src="/voxo/voxoapp/static/assets/images/payment-icon/3.jpg"
+                  class="img-fluid blur-up lazyload" alt="payment icon"></a>
+            </li>
+            <li>
+              <a href="javascript:void(0)">
+                <img loading="lazy" src="/voxo/voxoapp/static/assets/images/payment-icon/4.jpg"
+                  class="img-fluid blur-up lazyload" alt="payment icon"></a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <p class="mb-0 font-dark">© 2023, Voxo Theme. Made with heart by Pixelstrap</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+<!-- sticky cart bottom start -->
+
+<!-- sticky cart bottom end -->
+
+<!-- recently purchase product -->
+
+<!-- recently purchase product -->
+
+<!-- Quick view modal start -->
+<div class="modal fade quick-view-modal" id="quick-view">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      <div class="modal-body">
+        <div class="row gy-4">
+
+          <div class="col-lg-6 ratio_2">
+            <div class="quick-view-image" id="quickViewImagesDiv">
+              <img loading="lazy" id="quickViewImage" class="product-quick-view img-fluid bg-img blur-up lazyload"
+                alt="product" />
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="product-right" id="productRight">
+              <h2 class="mb-2" id="productName"></h2>
+              <ul class="rating mt-1" id="productRating">
+                <li class="font-light" id="stockStatus"></li>
+              </ul>
+              <div id="priceLabel" class="price mt-3">
+                <h3 id="productPrice">$20.00</h3>
+                <del class="font-light mx-2" id="actualPriceAtQuickView"></del>
+                <span class="theme-color" id="discountPercentageAtQuickView"></span>
+              </div>
+              <div class="price mt-3" id="priceLabel2"></div>
+
+              <div class="product-btns" id="productBtnDiv">
+                <a id="addToCart" class="btn btn-solid-default btn-sm">Add to cart</a>
+                <a id="productLeftSlidebar" class="btn btn-solid-default btn-sm">View details</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Quick view modal end -->
+
+<!-- Cart Successful Start -->
+<div class="modal fade cart-modal" id="addtocart" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-contain">
+          <div>
+            <div class="modal-messages">
+              <i class="fas fa-check"></i> 3-stripes full-zip hoodie
+              successfully added to you cart.
+            </div>
+            <div class="modal-product">
+              <div class="modal-contain-img">
+                <img loading="lazy" src="/voxo/voxoapp/static/assets/images/fashion/instagram/4.jpg"
+                  class="img-fluid blur-up lazyload" alt="" />
+              </div>
+              <div class="modal-contain-details">
+                <h4>Premier Cropped Skinny Jean</h4>
+                <p class="font-light my-2">Yellow, Qty : 3</p>
+                <div class="product-total">
+                  <h5>TOTAL : <span>$1,140.00</span></h5>
+                </div>
+                <div class="shop-cart-button mt-3">
+                  <a href="shop-left-sidebar.html"
+                    class="btn default-light-theme conti-button default-theme default-theme-2 rounded">CONTINUE
+                    SHOPPING</a>
+                  <a href="cart.html"
+                    class="btn default-light-theme conti-button default-theme default-theme-2 rounded">VIEW CART</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ratio_asos mt-4">
+          <div class="container">
+            <div class="row m-0">
+              <div class="col-sm-12 p-0">
+                <div class="product-wrapper product-style-2 slide-4 p-0 light-arrow bottom-space spacing-slider">
+                  <div>
+                    <div class="product-box">
+                      <div class="img-wrapper">
+                        <div class="front">
+                          <a href="/shop_left_slidebar">
+                            <img loading="lazy" src="/voxo/voxoapp/static/assets/images/fashion/product/front/1.jpg"
+                              class="bg-img blur-up lazyload" alt="" />
+                          </a>
+                        </div>
+                      </div>
+                      <div class="product-details text-center">
+                        <div class="rating-details d-block text-center">
+                          <span class="font-light grid-content">B&Y Jacket</span>
+                        </div>
+                        <div class="main-price mt-0 d-block text-center">
+                          <h3 class="theme-color">$78.00</h3>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="product-box">
+                      <div class="img-wrapper">
+                        <div class="front">
+                          <a href="/shop_left_slidebar">
+                            <img loading="lazy" src="/voxo/voxoapp/static/assets/images/fashion/product/front/2.jpg"
+                              class="bg-img blur-up lazyload" alt="" />
+                          </a>
+                        </div>
+                      </div>
+                      <div class="product-details text-center">
+                        <div class="rating-details d-block text-center">
+                          <span class="font-light grid-content">B&Y Jacket</span>
+                        </div>
+                        <div class="main-price mt-0 d-block text-center">
+                          <h3 class="theme-color">$78.00</h3>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="product-box">
+                      <div class="img-wrapper">
+                        <div class="front">
+                          <a href="/shop_left_slidebar">
+                            <img loading="lazy" src="/voxo/voxoapp/static/assets/images/fashion/product/front/3.jpg"
+                              class="bg-img blur-up lazyload" alt="" />
+                          </a>
+                        </div>
+                      </div>
+                      <div class="product-details text-center">
+                        <div class="rating-details d-block text-center">
+                          <span class="font-light grid-content">B&Y Jacket</span>
+                        </div>
+                        <div class="main-price mt-0 d-block text-center">
+                          <h3 class="theme-color">$78.00</h3>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="product-box">
+                      <div class="img-wrapper">
+                        <div class="front">
+                          <a href="/shop_left_slidebar">
+                            <img loading="lazy" src="/voxo/voxoapp/static/assets/images/fashion/product/front/4.jpg"
+                              class="bg-img blur-up lazyload" alt="" />
+                          </a>
+                        </div>
+                      </div>
+                      <div class="product-details text-center">
+                        <div class="rating-details d-block text-center">
+                          <span class="font-light grid-content">B&Y Jacket</span>
+                        </div>
+                        <div class="main-price mt-0 d-block text-center">
+                          <h3 class="theme-color">$78.00</h3>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Cart Successful End -->
+
+<!-- Size Modal Start -->
+<div class="modal modal-size fade" id="sizemodal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <img loading="lazy" src="/voxo/voxoapp/static/assets/images/size-chart.jpg" alt=""
+          class="img-fluid blur-up lazyload" />
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Size Modal End -->
+
+
+
+<!-- Add To Cart Notification -->
+<div class="added-notification">
+  <img loading="lazy" src="/voxo/voxoapp/static/assets/images/fashion/banner/2.jpg" class="img-fluid blur-up lazyload"
+    alt="" />
+  <h3>added to cart</h3>
+</div>
+<!-- Add To Cart Notification -->
+
+
+
+<!-- tap to top Section Start -->
+<div class="tap-to-top">
+  <a href="#home">
+    <i class="fas fa-chevron-up"></i>
+  </a>
+</div>
+<!-- tap to top Section End -->
+
+<div class="bg-overlay"></div>
+
+{% include 'commons/product_detail_commons/scripts.html' %}
+</body>
+
+</html>
