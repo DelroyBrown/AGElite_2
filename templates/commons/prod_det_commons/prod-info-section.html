@@ -25,80 +25,10 @@
                 <div class="shipping-chart">
                     <div class="part">
                         <h4 class="inner-title mb-2">Give you a complete account of the system</h4>
-                        <p class="font-light">Nor again is there anyone who loves or pursues or desires
-                            to
-                            obtain pain of itself, because it is pain, but because occasionally
-                            circumstances occur in which toil and pain can procure him some great
-                            pleasure.
-                            To take a trivial example, which of us ever undertakes laborious physical
-                            exercise, except to obtain some advantage from it? But who has any right to
-                            find
-                            fault with a man who chooses to enjoy a pleasure that has no annoying
-                            consequences, or one who avoids a pain that produces no resultant pleasure.
-                        </p>
+                        <p class="font-light">{{ product.description }}</p>
                     </div>
 
-                    <div class="row g-3 align-items-center">
-                        <div class="col-lg-8">
-                            <p class="font-light">Lorem ipsum dolor sit amet, consectetur adipisicing
-                                elit.
-                                Ab, autem nemo? Tempora vitae assumenda laudantium unde magni, soluta
-                                repudiandae quam, neque voluptate deleniti consequatur laboriosam
-                                veritatis?
-                                Tempore dolor molestias voluptatum! Minima possimus, pariatur sed, quasi
-                                provident dolorum unde molestias, assumenda consequuntur odit magni
-                                blanditiis obcaecati? Ea corporis odit dolorem fuga, fugiat soluta
-                                consequuntur magni.</p>
 
-                            <div class="part mt-3">
-                                <h5 class="inner-title mb-2">fabric:</h5>
-                                <p class="font-light">Art silk is manufactured by synthetic fibres like
-                                    rayon. It's light in weight and is soft on the skin for comfort in
-                                    summers.Art silk is manufactured by synthetic fibres like rayon.
-                                    It's
-                                    light in weight and is soft on the skin for comfort in summers.</p>
-                                <p class="font-light">Lorem Ipsum is simply dummy text of the printing
-                                    and typesetting industry. Lorem Ipsum has been the industry's
-                                    standard dummy text ever since the 1500s</p>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4">
-                            <img loading="lazy" src="/voxo/voxoapp/static/assets/images/fashion/slider/1.jpg"
-                                class="img-fluid rounded blur-up lazyload" alt="">
-                        </div>
-
-                        <div class="col-lg-8 order-lg-2 mt-4">
-                            <p class="font-light">Lorem ipsum dolor sit amet, consectetur adipisicing
-                                elit.
-                                Ab, autem nemo? Tempora vitae assumenda laudantium unde magni, soluta
-                                repudiandae quam, neque voluptate deleniti consequatur laboriosam
-                                veritatis?
-                                Tempore dolor molestias voluptatum! Minima possimus, pariatur sed, quasi
-                                provident dolorum unde molestias, assumenda consequuntur odit magni
-                                blanditiis obcaecati? Ea corporis odit dolorem fuga, fugiat soluta
-                                consequuntur magni.</p>
-                            <div class="part mt-3">
-                                <p class="font-light">Lorem ipsum, dolor sit amet consectetur
-                                    adipisicing
-                                    elit. Odio repellat numquam perspiciatis eum quis ab, sed dicta
-                                    tenetur
-                                    fugit culpa, aut distinctio deserunt quisquam ipsam reprehenderit
-                                    iure?
-                                    Adipisci, optio enim? Voluptates voluptatum neque id ad commodi
-                                    quisquam
-                                    dolorem vitae inventore quasi! Officiis facere, iusto tempore atque
-                                    magnam voluptas. Architecto laboriosam deleniti hic veritatis
-                                    nesciunt.
-                                    Aut officia quasi inventore et. Debitis.</p>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 order-lg-0 mt-4">
-                            <img loading="lazy" src="/voxo/voxoapp/static/assets/images/fashion/slider/2.jpg"
-                                class="img-fluid rounded blur-up lazyload" alt="">
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -110,50 +40,39 @@
                         on a white color.</p>
                     <div class="table-responsive">
                         <table class="table table-part">
+                            {% if product.specification.dimensions %}
                             <tr>
                                 <th>Product Dimensions</th>
-                                <td>15 x 15 x 3 cm; 250 Grams</td>
+                                <td>{{ product.specification.dimensions }}</td>
                             </tr>
-                            <tr>
-                                <th>Date First Available</th>
-                                <td>5 April 2021</td>
-                            </tr>
+                            {% endif %}
+                            {% if product.specification.manufacturer %}
                             <tr>
                                 <th>Manufacturer‏</th>
-                                <td>Aditya Birla Fashion and Retail Limited</td>
+                                <td>{{ product.specification.manufacturer }}</td>
                             </tr>
-                            <tr>
-                                <th>ASIN</th>
-                                <td>B06Y28LCDN</td>
-                            </tr>
+                            {% endif %}
                             <tr>
                                 <th>Item model number</th>
                                 <td>AMKP317G04244</td>
                             </tr>
                             <tr>
-                                <th>Department</th>
-                                <td>Men</td>
+                                <th>Category</th>
+                                <td>{{ product.category }}</td>
                             </tr>
+                            {% if product.specification.weight %}
                             <tr>
                                 <th>Item Weight</th>
-                                <td>250 G</td>
+                                <td>{{ product.specification.weight }}</td>
                             </tr>
+                            {% endif %}
+                            {% if product.specification.dimensions %}
                             <tr>
                                 <th>Item Dimensions LxWxH</th>
-                                <td>15 x 15 x 3 Centimeters</td>
+                                <td>{{ product.specification.dimensions }}</td>
                             </tr>
-                            <tr>
-                                <th>Net Quantity</th>
-                                <td>1 U</td>
-                            </tr>
-                            <tr>
-                                <th>Included Components‏</th>
-                                <td>1-T-shirt</td>
-                            </tr>
-                            <tr>
-                                <th>Generic Name</th>
-                                <td>T-shirt</td>
-                            </tr>
+                            {% endif %}
+                         
                         </table>
                     </div>
                 </div>

@@ -27,6 +27,18 @@ class Product(models.Model):
         return self.name
 
 
+class ProductSpecification(models.Model):
+    product = models.OneToOneField(
+        Product, related_name="specification", on_delete=models.CASCADE
+    )
+    manufacturer = models.CharField(max_length=200, blank=True, null=True, default="")
+    weight = models.CharField(max_length=100, blank=True, null=True, default="")
+    dimensions = models.CharField(max_length=100, blank=True, null=True, default="")
+
+    def __str__(self):
+        return f"Specificiations for {self.product.name}"
+
+
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     first_name = models.CharField(max_length=50)
