@@ -10,8 +10,8 @@
                     <ul class="border-list">
                         <li>
                             <div class="dropdown">
-                                <a class="dropdown-toggle" href="javascript:void(0)" role="button"
-                                    id="dropdownMenuLink" data-bs-toggle="dropdown">
+                                <a class="dropdown-toggle" href="javascript:void(0)" role="button" id="dropdownMenuLink"
+                                    data-bs-toggle="dropdown">
                                     <span>Login</span> & Register
                                     <i class="fas fa-chevron-down"></i>
                                 </a>
@@ -41,13 +41,13 @@
                             <div class="brand-logo">
                                 <a href="/">
 
-                                    <img loading="lazy" src="{% static 'assets/images/home_page_images/logo_transparent.png' %}"
+                                    <img loading="lazy"
+                                        src="{% static 'assets/images/home_page_images/logo_transparent.png' %}"
                                         class="img-fluid blur-up lazyload" alt="logo">
                                 </a>
                             </div>
                             <div class="category-menu">
-                                <button type="button"
-                                    class="btn btn-solid-default toggle-category d-sm-block d-none">
+                                <button type="button" class="btn btn-solid-default toggle-category d-sm-block d-none">
                                     All categories
                                     <i class="fas fa-chevron-down d-xl-inline-block d-none"></i>
                                 </button>
@@ -151,9 +151,9 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                      
 
-                                    
+
+
                                     </ul>
                                 </div>
                             </div>
@@ -176,14 +176,14 @@
 
                                         <li class="mega-menu home-menu">
                                             <a href="/" class="nav-link menu-title">home</a>
-                                          
+
                                         </li>
-                                       
+
                                         <li>
                                             <a href="/" class="nav-link menu-title">
                                                 Store
                                             </a>
-                                           
+
                                         </li>
                                         <li class="dropdown">
                                             <a href="javascript:void(0)" class="nav-link menu-title">categories</a>
@@ -203,7 +203,7 @@
                                                         Hip Thrust Belts
                                                     </a>
                                                 </li>
-                                              
+
                                             </ul>
                                         </li>
 
@@ -211,15 +211,15 @@
                                             <a href="javascript:void(0)" class="nav-link menu-title">
                                                 about us
                                             </a>
-                                         
+
                                         </li>
                                         <li>
                                             <a href="javascript:void(0)" class="nav-link menu-title">
                                                 contact
                                             </a>
-                                         
+
                                         </li>
-                                     
+
                                         <!-- ===================================================================================== -->
                                         <li class="mobile-poster d-flex d-xl-none">
                                             <img loading="lazy" src="/voxo/voxoapp/static/assets/images/pwa.png"
@@ -272,7 +272,9 @@
                                 <li class="onhover-dropdown cart-dropdown">
                                     <button type="button" class="btn btn-solid-default btn-spacing" id="colorUsed">
                                         <i data-feather="shopping-cart" class="pe-2"></i>
-                                        <span id="cartTotalPriceButton">$0.00</span>
+                                        <span id="cartTotalPriceButton">
+                                            £{{ cart.get_total_price }}
+                                        </span>
                                     </button>
                                     <div class="onhover-div">
                                         <div class="cart-menu">
@@ -285,18 +287,13 @@
                                                     <i class="fas fa-arrow-right back-cart"></i>
                                                 </span>
                                             </div>
-
-
                                             <ul class="custom-scroll">
-
                                                 <li>
-                                                    <img src="{% static 'assets/images/cartEmpty.png' %}"
-                                                        alt="" class="img-fluid" />
+                                                    <img src="{% static 'assets/images/cartEmpty.png' %}" alt=""
+                                                        class="img-fluid" />
                                                 </li>
-
-
-
                                         </div>
+                                    </div>
                                 </li>
                             </ul>
                         </div>

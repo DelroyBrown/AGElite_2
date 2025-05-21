@@ -97,8 +97,7 @@
                       <span class="lang">orders in last 24 hours</span>
                     </li>
                     <li>
-                      <img loading="lazy"
-                      src="{% static 'assets/images/gif/person.gif' %}"
+                      <img loading="lazy" src="{% static 'assets/images/gif/person.gif' %}"
                         class="img-fluid user_img blur-up lazyload" alt="image">
                       <span class="p-counter">44</span>
                       <span class="lang">active view this</span>
@@ -121,7 +120,7 @@
 
 
 
-             
+
 
                 </h3>
 
@@ -196,16 +195,29 @@
                 </div>
 
                 <div class="product-buttons">
-                  <a id="wishlistEffect" href="/add_to_wishlist/2ee68748-8034-4f85-a78f-2d93ce2e7ba1"
+                  <a id="wishlistEffect" href="javascript:void()"
                     class="btn btn-solid wishlist">
                     <i class="fa fa-bookmark fz-16 me-2"></i>
                     <span>Wishlist</span>
                   </a>
-                  <a id="cartEffect" onclick="add_to_cart_fun({key:'2ee68748-8034-4f85-a78f-2d93ce2e7ba1'})"
+                  <!-- <a id="cartEffect"
+                  data-url="{% url 'AGElite_store:cart_add' product.id %}" data-quantity-input="#id_quantity"
                     class="btn btn-solid hover-solid btn-animation">
                     <i class="fa fa-shopping-cart"></i>
                     <span>Add To Cart</span>
-                  </a>
+                  </a> -->
+                <form id="add-to-cart-form"
+                data-url="{% url 'AGElite_store:cart_add' product.id %}"
+                  action="{% url 'AGElite_store:cart_add' product.id %}" method="post">
+                  {% csrf_token %}
+                  {{ cart_product_form.quantity }}
+                  <button type="submit" class="btn btn-solid hover-solid btn-animation">
+                    <i class="fa fa-shopping-cart"></i>
+                    <span>Add To Cart</span>
+                  </button>
+                </form>
+
+
                 </div>
 
                 <ul class="product-count shipping-order">
@@ -341,6 +353,7 @@
               <div class="product-btns" id="productBtnDiv">
                 <a id="addToCart" class="btn btn-solid-default btn-sm">Add to cart</a>
                 <a id="productLeftSlidebar" class="btn btn-solid-default btn-sm">View details</a>
+
               </div>
             </div>
           </div>
@@ -527,6 +540,7 @@
 <div class="bg-overlay"></div>
 
 {% include 'commons/prod_det_commons/scripts.html' %}
+<script src="{% static 'product_detail/javascript/cart_ajax.js' %}"></script>
 </body>
 
 </html>

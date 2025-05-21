@@ -31,13 +31,17 @@ class Cart:
             self.save()
 
     def __iter__(self):
-        pids = self.cart.keys()
+        # Iterate over a copy of session data to avoid modifying it
+        pids = list(self.cart.keys())
         products = Product.objects.filter(id__in=pids)
         for product in products:
-            item = self.cart[str(product.id)]
-            item["product"] = product
-            item["total_price"] = Decimal(item["price"]) * item["quantity"]
-            yield item
+            stored = self.cart[str(product.id)]
+            yield {
+                "product": product,
+                "quantity": stored["quantity"],
+                "price": stored["price"],
+                "total_price": Decimal(stored["price"]) * stored["quantity"],
+            }
 
     def __len__(self):
         return sum(item["quantity"] for item in self.cart.values())

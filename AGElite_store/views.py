@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Category, Product, Order, OrderItem
 from .forms import CartAddProductForm, OrderCreateForm
 from .cart import Cart
+from django.http import JsonResponse
 
 
 def home(request):
@@ -47,13 +48,28 @@ def cart_add(request, product_id):
     if form.is_valid():
         cd = form.cleaned_data
         cart.add(product=product, quantity=cd["quantity"], update_quantity=cd["update"])
+    # Return JSON for AJAX requests
+    if request.headers.get("x-requested-with") == "XMLHttpRequest":
+        items = []
+        for item in cart:
+            items.append(
+                {
+                    "id": item["product"].id,
+                    "name": item["product"].name,
+                    "qty": item["quantity"],
+                    "total_price": str(item["total_price"]),
+                }
+            )
+        return JsonResponse({"count": len(cart), "items": items})
+    # Fallback to full redirect
+    return redirect("AGElite_store:cart_detail")
 
 
 def cart_remove(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id)
     cart.remove(product)
-    return redirect("cart_detail")
+    return redirect("AGElite_store:cart_detail")
 
 
 # Cart detail view
