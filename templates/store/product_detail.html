@@ -210,7 +210,7 @@
                 data-url="{% url 'AGElite_store:cart_add' product.id %}"
                   action="{% url 'AGElite_store:cart_add' product.id %}" method="post">
                   {% csrf_token %}
-                  {{ cart_product_form.quantity }}
+                 <span>Quantity: {{ cart_product_form.quantity }}</span>
                   <button type="submit" class="btn btn-solid hover-solid btn-animation">
                     <i class="fa fa-shopping-cart"></i>
                     <span>Add To Cart</span>
